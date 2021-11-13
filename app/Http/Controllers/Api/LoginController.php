@@ -19,8 +19,13 @@ final class LoginController extends Controller
       }
 
       return new JsonResponse([
-          'token' => $request->user()->createToken($request->device)->plainTextToken
-        ], Response::HTTP_UNAUTHORIZED);
+          'token' => $request
+          ->user()
+          ->createToken($request->device)
+          ->plainTextToken
+      ],
+      Response::HTTP_UNAUTHORIZED
+    );
     }
 
     private function validateLogin(Request $request): void

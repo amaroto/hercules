@@ -17,5 +17,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('profile', [UserController::class, 'profile']);
 
+    Route::prefix('user')->group(function () {
+        Route::get('{id}', [UserController::class, 'find']);
+
+        Route::delete('{id}', [UserController::class, 'delete']);
+
+    });
+
     // Route::apiResource('users', UserController::class)->only(['show']);
 });
