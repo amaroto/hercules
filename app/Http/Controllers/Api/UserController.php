@@ -22,7 +22,10 @@ final class UserController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        return new JsonResponse ($this->userService->index((int) $request->page, (int) $request->items, $request->all()), Response::HTTP_OK);
+        return new JsonResponse (
+            $this->userService->index((int) $request->page, (int) $request->items, $request->query()),
+            Response::HTTP_OK
+        );
     }
 
     public function profile(Request $request): JsonResponse
@@ -35,19 +38,19 @@ final class UserController extends Controller
       return new JsonResponse($this->userService->find($id), Response::HTTP_OK);
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
-      return new JsonResponse($request->user(), Response::HTTP_OK);
+      return new JsonResponse($this->userService->update($id, $request->all()), Response::HTTP_NO_CONTENT);
     }
 
     public function create(Request $request): JsonResponse
     {
-      return new JsonResponse($request->user(), Response::HTTP_OK);
+      return new JsonResponse($this->userService->save($request->all()), Response::HTTP_CREATED);
     }
 
     public function delete(int $id): JsonResponse
     {
-      return new JsonResponse($this->userService->delete($id), Response::HTTP_OK);
+      return new JsonResponse($this->userService->delete($id), Response::HTTP_NO_CONTENT);
     }
 
 }
