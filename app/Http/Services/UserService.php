@@ -7,6 +7,7 @@ use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use Spatie\QueryBuilder\QueryBuilder;
 use  Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 final class UserService
 {
@@ -35,16 +36,6 @@ final class UserService
         return new UserResource(User::find($id));
     }
 
-    public function update(int $id, array $data): void
-    {
-        dd($id, $data);
-    }
-
-    public function save(array $data): void
-    {
-        dd($data);
-    }
-
     public function delete(int $id): void
     {
         $user = User::find($id);
@@ -61,4 +52,17 @@ final class UserService
     {
         User::withTrashed()->where('id', $id)->restore();
     }
+
+    public function update(int $id, array $data): void
+    {
+        User::where("id", $id)->update($data);
+    }
+
+    public function save(array $data): void
+    {
+        if(isset($data['password'])) $data['password'] = Hash::make($data['password']);
+
+        User::create($data);
+    }
+
 }
