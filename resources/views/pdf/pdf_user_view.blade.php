@@ -33,6 +33,17 @@
             text-align: center;
             line-height: 35px;
         }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0px 20px;
+        }
+
+        table tr {
+            background-color: #d0dbd0;
+            border-bottom: 1pt solid #8f6f6f;
+        }
+
     </style>
 </head>
 <body>
@@ -41,7 +52,29 @@
 </header>
 
 <main>
-    <h1>Contenido</h1>
+    <h1>Listado</h1>
+
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+        </thead>
+        <tbody>
+            @foreach ($data as $d)
+                <tr style="margin-top: 10px">
+                    <td>{!! $d->id !!}</td>
+                    <td>{!! $d->username !!}</td>
+                    <td>{!! $d->firstname !!}</td>
+                    <td>{!! $d->lastname !!}</td>
+                    <td>{!! $d->email !!}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
 </main>
 
 <footer>

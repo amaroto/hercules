@@ -32,10 +32,7 @@ final class UserController extends Controller
     public function exportPdf(Request $request)
     {
         $users = $this->userService->index((int) $request->page, (int) $request->items, $request->query(), false);
-
-        // view()->share('users', $users->items());
-
-        return (PDF::loadView('pdf/pdf_view', $users->items()))->download('pdf_file.pdf');
+        return (PDF::loadView('pdf/pdf_user_view', ['data' => $users->items()]))->download('userList_'.uniqid().'.pdf');
     }
 
     public function profile(Request $request): JsonResponse
