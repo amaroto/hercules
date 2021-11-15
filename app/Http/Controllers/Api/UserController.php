@@ -12,6 +12,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Services\UserService;
 
 use PDF;
+
 final class UserController extends Controller
 {
     private UserService $userService;

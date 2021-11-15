@@ -8,22 +8,29 @@ use App\Http\Resources\UserResource;
 use Spatie\QueryBuilder\QueryBuilder;
 use  Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
 final class UserService
 {
 
     public function index(int $page = 1, int $items = 100, $filters = [], bool $collection = true)
     {
+        unset($filters['page']);
+        unset($filters['items']);
+
         $users = User::latest()->paginate($items, ['*'], 'page', $page);
 
         if ($filters) {
-            unset($filters['page']);
-            unset($filters['items']);
-
             $request = new Request(['filter' => $filters]);
 
             $users = QueryBuilder::for(User::class, $request)
                 ->defaultSort('created_at')
-                ->allowedFilters(['username', 'firstname', 'lastname', 'email', 'active'])
+                ->allowedFilters([
+                    'username',
+                    'firstname',
+                    'lastname',
+                    'email',
+                    'active'
+                    ])
                 ->paginate($items, ['*'], 'page', $page);
         }
 

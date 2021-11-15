@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\LeadController;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -12,6 +14,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login', [LoginController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    // START USERS
 
     Route::get('users', [UserController::class, 'index']);
 
@@ -26,5 +30,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('', [UserController::class, 'create']);
     });
 
-    // Route::apiResource('users', UserController::class)->only(['show']);
+    // END USERS
+
+    // START LEADS
+
+    Route::get('leads', [LeadController::class, 'index']);
+
+    Route::get('leads/pdf', [LeadController::class, 'exportPdf']);
+
+    Route::prefix('lead')->group(function () {
+        Route::get('{id}', [LeadController::class, 'find']);
+        Route::delete('{id}', [LeadController::class, 'delete']);
+        Route::put('{id}', [LeadController::class, 'update']);
+        Route::post('', [LeadController::class, 'create']);
+    });
+
+    // END LEADS
+
 });
