@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LeadController;
+use App\Http\Controllers\Api\ClientController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -43,6 +44,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('{id}', [LeadController::class, 'delete']);
         Route::put('{id}', [LeadController::class, 'update']);
         Route::post('', [LeadController::class, 'create']);
+    });
+
+    // END LEADS
+
+    // START LEADS
+
+    Route::get('clients', [ClientController::class, 'index']);
+
+    Route::get('clients/pdf', [ClientController::class, 'exportPdf']);
+
+    Route::prefix('client')->group(function () {
+        Route::get('{id}', [ClientController::class, 'find']);
+        Route::delete('{id}', [ClientController::class, 'delete']);
+        Route::put('{id}', [ClientController::class, 'update']);
+        Route::post('', [ClientController::class, 'create']);
     });
 
     // END LEADS

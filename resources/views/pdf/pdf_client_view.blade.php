@@ -57,7 +57,7 @@
 </header>
 
 <main>
-    <h1>Lead list</h1>
+    <h1>Client list</h1>
 
     <table>
         <thead>
