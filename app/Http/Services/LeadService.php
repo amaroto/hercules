@@ -2,8 +2,8 @@
 
 namespace App\Http\Services;
 
-use App\Http\Resources\LeadCollection;
-use App\Http\Resources\LeadResource;
+use App\Http\Resources\Lead\LeadCollection;
+use App\Http\Resources\Lead\LeadResource;
 use App\Models\Lead;
 use Spatie\QueryBuilder\QueryBuilder;
 use  Illuminate\Http\Request;

@@ -3,8 +3,8 @@
 namespace App\Http\Services;
 
 use App\Models\User;
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\User\UserCollection;
+use App\Http\Resources\User\UserResource;
 use Spatie\QueryBuilder\QueryBuilder;
 use  Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Services;
 
-use App\Http\Resources\ClientCollection;
-use App\Http\Resources\ClientResource;
+use App\Http\Resources\Client\ClientCollection;
+use App\Http\Resources\Client\ClientResource;
 use App\Models\Client;
 use Spatie\QueryBuilder\QueryBuilder;
 use  Illuminate\Http\Request;

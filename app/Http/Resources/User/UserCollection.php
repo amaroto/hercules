@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\User;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class LeadCollection extends ResourceCollection
+class UserCollection extends ResourceCollection
 {
     public function toArray($request)
     {
