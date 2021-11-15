@@ -8,11 +8,10 @@ use App\Http\Resources\UserResource;
 use Spatie\QueryBuilder\QueryBuilder;
 use  Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
 final class UserService
 {
 
-    public function index(int $page = 1, int $items = 100, $filters = []): UserCollection
+    public function index(int $page = 1, int $items = 100, $filters = [], bool $collection = true)
     {
         $users = User::latest()->paginate($items, ['*'], 'page', $page);
 
@@ -28,7 +27,7 @@ final class UserService
                 ->paginate($items, ['*'], 'page', $page);
         }
 
-        return new UserCollection($users);
+        return $collection ? new UserCollection($users) : $users;
     }
 
     public function find(int $id): UserResource

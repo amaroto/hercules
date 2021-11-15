@@ -15,6 +15,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('users', [UserController::class, 'index']);
 
+    Route::get('users/pdf', [UserController::class, 'exportPdf']);
+
     Route::get('profile', [UserController::class, 'profile']);
 
     Route::prefix('user')->group(function () {

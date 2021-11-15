@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\UserResource;
 use App\Http\Services\UserService;
 
+use PDF;
 final class UserController extends Controller
 {
     private UserService $userService;
@@ -26,6 +27,15 @@ final class UserController extends Controller
             $this->userService->index((int) $request->page, (int) $request->items, $request->query()),
             Response::HTTP_OK
         );
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $users = $this->userService->index((int) $request->page, (int) $request->items, $request->query(), false);
+
+        // view()->share('users', $users->items());
+
+        return (PDF::loadView('pdf/pdf_view', $users->items()))->download('pdf_file.pdf');
     }
 
     public function profile(Request $request): JsonResponse
