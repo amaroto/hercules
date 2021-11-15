@@ -39,28 +39,35 @@
             border-spacing: 0px 20px;
         }
 
-        table tr {
+        table tr th {
+            padding: 10px;
             background-color: #d0dbd0;
             border-bottom: 1pt solid #8f6f6f;
+        }
+
+        table tr td {
+            padding: 10px;
         }
 
     </style>
 </head>
 <body>
 <header>
-    <h1>TEST</h1>
+    <h1>CRM</h1>
 </header>
 
 <main>
-    <h1>Listado</h1>
+    <h1>User list</h1>
 
     <table>
         <thead>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+            </tr>
         </thead>
         <tbody>
             @foreach ($data as $d)
@@ -78,7 +85,7 @@
 </main>
 
 <footer>
-    <h1>TEST</h1>
+    <h1>CRM</h1>
 </footer>
 </body>
 </html>
