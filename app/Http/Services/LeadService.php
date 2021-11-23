@@ -7,6 +7,8 @@ use App\Http\Resources\Lead\LeadResource;
 use App\Models\Lead;
 use Spatie\QueryBuilder\QueryBuilder;
 use  Illuminate\Http\Request;
+use Exception;
+use Illuminate\Support\Facades\Validator;
 
 final class LeadService
 {
@@ -40,33 +42,73 @@ final class LeadService
 
     public function find(int $id): LeadResource
     {
-        return new LeadResource(Lead::find($id));
+        $lead = Lead::find($id);
+
+        if (!$lead) throw new Exception('Lead not found');
+
+        return new LeadResource($lead);
     }
 
     public function delete(int $id): void
     {
         $lead = Lead::find($id);
+
+        if (!$lead) throw new Exception('Lead not found');
+
         $lead->delete();
     }
 
     public function destroy(int $id): void
     {
         $lead = Lead::find($id);
+
+        if (!$lead) throw new Exception('Lead not found');
+
         $lead->destroy();
     }
 
     public function restore(int $id): void
     {
-        Lead::withTrashed()->where('id', $id)->restore();
+        $lead = Lead::withTrashed()->where('id', $id);
+
+        if (!$lead) throw new Exception('Lead not restored');
+
+        $lead->restore();
     }
 
     public function update(int $id, array $data): void
     {
+        $this->find($id);
+
+        $valid = Validator::make($data, [
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
+            'nif' => 'required|max:255',
+            'details' => 'required|max:255',
+            'phone' => 'required|max:255',
+            'mobile_phone' => 'required|max:255',
+            'company_id' => 'required|max:255'
+        ]);
+
+        if ($valid->fails()) throw new Exception('Lead not updated');
+
         Lead::where("id", $id)->update($data);
     }
 
     public function save(array $data): void
     {
+        $valid = Validator::make($data, [
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
+            'nif' => 'required|max:255',
+            'details' => 'required|max:255',
+            'phone' => 'required|max:255',
+            'mobile_phone' => 'required|max:255',
+            'company_id' => 'required|max:255'
+        ]);
+
+        if ($valid->fails()) throw new Exception('Lead not created');
+
         Lead::create($data);
     }
 

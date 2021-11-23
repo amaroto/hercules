@@ -12,6 +12,8 @@ use App\Http\Services\LeadService;
 
 use PDF;
 
+use Exception;
+
 final class LeadController extends Controller
 {
     private LeadService $leadService;
@@ -37,22 +39,38 @@ final class LeadController extends Controller
 
     public function find(int $id): JsonResponse
     {
-      return new JsonResponse($this->leadService->find($id), Response::HTTP_OK);
+        try {
+            return new JsonResponse($this->leadService->find($id), Response::HTTP_OK);
+        } catch(Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     public function update(Request $request, int $id): JsonResponse
     {
-      return new JsonResponse($this->leadService->update($id, $request->all()), Response::HTTP_NO_CONTENT);
+        try {
+            return new JsonResponse($this->leadService->update($id, $request->all()), Response::HTTP_OK);
+        } catch(Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     public function create(Request $request): JsonResponse
     {
-      return new JsonResponse($this->leadService->save($request->all()), Response::HTTP_CREATED);
+        try {
+            return new JsonResponse($this->leadService->save($request->all()), Response::HTTP_CREATED);
+        } catch(Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     public function delete(int $id): JsonResponse
     {
-      return new JsonResponse($this->leadService->delete($id), Response::HTTP_NO_CONTENT);
+        try {
+            return new JsonResponse($this->leadService->delete($id), Response::HTTP_NO_CONTENT);
+        } catch(Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
     }
 
 }
