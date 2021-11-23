@@ -67,7 +67,7 @@ final class LeadController extends Controller
     public function delete(int $id): JsonResponse
     {
         try {
-            return new JsonResponse($this->leadService->delete($id), Response::HTTP_NO_CONTENT);
+            return new JsonResponse($this->leadService->delete($id), Response::HTTP_OK);
         } catch(Exception $e) {
             return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }

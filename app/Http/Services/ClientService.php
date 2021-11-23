@@ -7,6 +7,8 @@ use App\Http\Resources\Client\ClientResource;
 use App\Models\Client;
 use Spatie\QueryBuilder\QueryBuilder;
 use  Illuminate\Http\Request;
+use Exception;
+use Illuminate\Support\Facades\Validator;
 
 final class ClientService
 {
@@ -40,33 +42,73 @@ final class ClientService
 
     public function find(int $id): ClientResource
     {
-        return new ClientResource(Client::find($id));
+        $client = Client::find($id);
+
+        if (!$client) throw new Exception('Client not found');
+
+        return new ClientResource($client);
     }
 
     public function delete(int $id): void
     {
         $client = Client::find($id);
+
+        if (!$client) throw new Exception('Client not found');
+
         $client->delete();
     }
 
     public function destroy(int $id): void
     {
         $client = Client::find($id);
+
+        if (!$client) throw new Exception('Client not found');
+
         $client->destroy();
     }
 
     public function restore(int $id): void
     {
-        Client::withTrashed()->where('id', $id)->restore();
+        $client = Client::withTrashed()->where('id', $id);
+
+        if (!$client) throw new Exception('Client not restored');
+
+        $client->restore();
     }
 
     public function update(int $id, array $data): void
     {
+        $this->find($id);
+
+        $valid = Validator::make($data, [
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
+            'nif' => 'required|max:255',
+            'details' => 'required|max:255',
+            'phone' => 'required|max:255',
+            'mobile_phone' => 'required|max:255',
+            'company_id' => 'required|max:255'
+        ]);
+
+        if ($valid->fails()) throw new Exception('Client not updated');
+
         Client::where("id", $id)->update($data);
     }
 
     public function save(array $data): void
     {
+        $valid = Validator::make($data, [
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
+            'nif' => 'required|max:255',
+            'details' => 'required|max:255',
+            'phone' => 'required|max:255',
+            'mobile_phone' => 'required|max:255',
+            'company_id' => 'required|max:255'
+        ]);
+
+        if ($valid->fails()) throw new Exception('Client not created');
+
         Client::create($data);
     }
 
