@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\CompanyController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -62,5 +63,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     // END LEADS
+
+    // START COMPANIES
+
+    Route::get('companies', [CompanyController::class, 'index']);
+
+    Route::get('companies/pdf', [CompanyController::class, 'exportPdf']);
+
+    Route::prefix('company')->group(function () {
+        Route::get('{id}', [CompanyController::class, 'find']);
+        Route::delete('{id}', [CompanyController::class, 'delete']);
+        Route::put('{id}', [CompanyController::class, 'update']);
+        Route::post('', [CompanyController::class, 'create']);
+    });
+
+    // END COMPANIES
 
 });
