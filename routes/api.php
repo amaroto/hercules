@@ -18,7 +18,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // START USERS
 
-    Route::get('users', [UserController::class, 'index'])->middleware(['auth:sanctum']);
+    Route::get('users', [UserController::class, 'index'])->middleware('abilities:users-search');
 
     Route::get('users/pdf', [UserController::class, 'exportPdf'])->middleware('abilities:users-export-pdf');
 
