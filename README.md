@@ -8,6 +8,9 @@ Side project for fun :D
 ## how to start
 
 `php artisan key:generate`
+
 `php artisan migrate`
+
 `php artisan db:seed`
+
 `php artisan serve`
