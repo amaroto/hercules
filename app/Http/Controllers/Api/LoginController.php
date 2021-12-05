@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,8 +18,7 @@ final class LoginController extends Controller
         return new JsonResponse([], Response::HTTP_UNAUTHORIZED);
       }
 
-      $roles = $request->user()->roles()->get();
-      $permissions = $roles ? $this->getPermissions($roles) : [];
+      $permissions = $request->user()->getPermissionsFromRoles();
 
       return new JsonResponse([
           'token' => $request->user()
@@ -42,16 +40,4 @@ final class LoginController extends Controller
       ]);
     }
 
-    private function getPermissions(Collection $roles): array
-    {
-        $permissions = [];
-
-        foreach($roles as $role) {
-            foreach($role->permissions()->get() as $permission) {
-                $permissions[] = $permission->slug;
-            }
-        }
-
-        return $permissions;
-    }
 }

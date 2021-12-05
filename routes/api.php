@@ -22,7 +22,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('users/pdf', [UserController::class, 'exportPdf'])->middleware('abilities:users-export-pdf');
 
-    Route::get('profile', [UserController::class, 'profile'])->middleware('abilities:users-profile');
+    Route::get('profile', [UserController::class, 'profile']);
 
     Route::prefix('user')->group(function () {
         Route::get('{id}', [UserController::class, 'find'])->middleware('abilities:users-find');

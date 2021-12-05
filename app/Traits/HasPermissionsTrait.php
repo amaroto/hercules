@@ -5,6 +5,8 @@ namespace App\Traits;
 use App\Models\Permission;
 use App\Models\Role;
 
+use Illuminate\Database\Eloquent\Collection;
+
 trait HasPermissionsTrait {
 
    public function givePermissionsTo(... $permissions) {
@@ -66,6 +68,25 @@ trait HasPermissionsTrait {
 
   protected function getAllPermissions(array $permissions) {
     return Permission::whereIn('slug',$permissions)->get();
+  }
+
+  public function getPermissions() {
+      $this->getPermissionsFromRoles($this->roles()->get());
+  }
+
+  public function getPermissionsFromRoles(): array
+  {
+      $roles = $this->roles()->get();
+
+      $permissions = [];
+
+      foreach($roles as $role) {
+          foreach($role->permissions()->get() as $permission) {
+              $permissions[] = $permission->slug;
+          }
+      }
+
+      return $permissions;
   }
 
 }
