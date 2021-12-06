@@ -27,7 +27,7 @@ final class LoginController extends Controller
               $permissions
             )
           ->plainTextToken],
-          Response::HTTP_UNAUTHORIZED
+          Response::HTTP_OK
     );
     }
 
